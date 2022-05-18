@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue introduction</title>
+
+    <link rel="stylesheet" href="./assets/style.css" type="text/css">
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+</head>
+<body>
+    <div class="nav-bar"></div>
+
+    <div id="app">
+        <button v-on:click="addToCart" :disabled="!inStock">Add to Cart</button>
+        <button v-on:click="removeFromCart">Remove from Cart</button>
+
+        <div class="cart">
+            <p>Cart({{ cart }})</p>
+        </div>
+
+        <div class="product-image">
+            <!-- Attribute binding -->
+            <img v-show="imageShow" v-bind:src="image" v-bind:alt="altText">
+        </div>
+
+        <div class="product-info">
+            <h1>Product: {{ title }}</h1>
+            
+            <!-- Event Handling -->
+            <div v-for="variant in variants" 
+                :key="variant.variantId" 
+                class="color-box"
+                v-bind:style="{ backgroundColor: variant.variantColor }">
+                <p @mouseover="updateProduct(variant.variantImage)">{{ variant.variantName }}</p>
+            </div>
+
+            <p>Description {{ description }}</p>
+            <a v-bind:href="link" target="blank">link</a>
+
+            <p v-if="inStock">In Stock</p>
+            <p v-else :class="{outOfStock: !inStock}">Out of Stock</p>
+
+            <!-- Conditional rendering -->
+            <p v-if="inventory > 10">In stock</p>
+            <p v-if-else="inventory <= 10 && inventory > 0">Almost out of stock</p>
+            <p v-else>Out of stock</p>
+            <p v-show="greet">Hello, world</p>
+            
+            <!-- list rendering -->
+            <ul>
+                <li v-for="detail in details">{{ detail }}</li>
+            </ul>
+
+            <!-- When using v-for it is recommended to give each rendered element its own unique key. -->
+            <div class="">
+                <p v-for="variant in variants" :key="variant.variantId">
+                    variantId: {{ variant.variantId }}
+                    variantColor: {{ variant.variantColor }} 
+                </p>
+            </div>
+
+             <!-- Refactor v-for with (variant, index) -->
+            <div class="">
+                <p v-for="(variant, index) in variants" 
+                    :key="variant.variantId"
+                    :style="{ backgroundColor: variant.variantColor}"
+                    @mouseover="updateProduct01(index)"
+                ></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        // Vue instance
+        var app = new Vue ({
+            el: '#app',
+            data: {
+                brand: "Vue",
+                product: "Socks",
+                description: ": A pair of warm, fuzzy socks",
+                link: "https//github.com",
+                image: "./assets/images/shirt.jpg",
+                altText: "A socks image",
+                inStock: false,
+                greet: false,
+                inventory: 8,
+                imageShow: true,
+                details: ["80% cotton", "20% polyster", "Gender-neutral"],
+                variants: [
+                    {
+                        variantId: 1,
+                        variantColor: "yellow",
+                        variantName: "shirt",
+                        variantImage: "./assets/images/shirt.jpg"
+                    },
+                    {
+                        variantId: 2,
+                        variantColor: "grey",
+                        variantName: "headphone",
+                        variantImage: "./assets/images/headphones.jpg"
+                    }
+                ],
+                selectedVariant: 0,
+                cart: 0
+            },
+            methods: {
+                addToCart: function() {
+                    this.cart+=1                        // this.cart --> an instance of this cart anywhere
+                },
+                removeFromCart: function() {
+                    this.cart-=1
+                },
+                updateProduct: function(variantImage) {
+                    this.image = variantImage
+                },
+                updateProduct01: function(index){
+                    this.selectedVariant = index
+                    console.log(index)
+                }
+            },
+            computed: {
+                title: function() {
+                    return this.brand + ' ' + this.product
+                },
+                image: function(){
+                    return this.variants[this.selectedVariant]variant.variantImage
+                }
+            }
+        })
+    </script>
+</body>
+</html> 

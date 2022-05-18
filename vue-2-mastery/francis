@@ -1,0 +1,15 @@
+1. one store per cluster
+2. all cameras are gpu intensive
+3. There are 25 cameras that use a single gpu
+4. They use argocd
+5. They absorb the client's network into their global network
+6. Docker containers 
+7. container registries?? 
+8. They have vertical autoscaling, no horizontal scaling
+9. No metrics server
+10. They Use python to configure cameras
+11. They use data tops for monitoring 
+
+* We can start in 2-weeks
+* TI-cloud for email and domain
+* We will use office365
