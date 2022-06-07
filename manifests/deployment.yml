@@ -22,5 +22,5 @@ spec:
               cpu: 250m
               memory: 256Mi
           ports:
-            - containerPort: 500
+            - containerPort: 5000
               name: http
